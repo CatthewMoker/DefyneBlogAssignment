@@ -19,9 +19,16 @@ class ArticlesController extends AppController
      */
     public function index()
     {
-        $articles = $this->paginate($this->Articles);
-
+        $articles = $this->Articles->find('all');
         $this->set(compact('articles'));
+        /*$articles = $this->paginate($this->Articles);
+
+        $this->set(compact('articles'));*/
+    }
+    public function view($id = null)
+    {
+        $article = $this->Articles->get($id);
+        $this->set(compact('article'));
     }
 
     /**
@@ -31,21 +38,21 @@ class ArticlesController extends AppController
      * @return \Cake\Http\Response|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    /*public function view($id = null)
     {
         $article = $this->Articles->get($id, [
             'contain' => []
         ]);
 
         $this->set('article', $article);
-    }
+    }*/
 
     /**
      * Add method
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    /*public function add()
     {
         $article = $this->Articles->newEntity();
         if ($this->request->is('post')) {
@@ -58,7 +65,7 @@ class ArticlesController extends AppController
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
         $this->set(compact('article'));
-    }
+    }*/
 
     /**
      * Edit method
@@ -67,7 +74,7 @@ class ArticlesController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function edit($id = null)
+    /*public function edit($id = null)
     {
         $article = $this->Articles->get($id, [
             'contain' => []
@@ -82,7 +89,7 @@ class ArticlesController extends AppController
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
         $this->set(compact('article'));
-    }
+    }*/
 
     /**
      * Delete method
@@ -91,7 +98,7 @@ class ArticlesController extends AppController
      * @return \Cake\Http\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    /*public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $article = $this->Articles->get($id);
@@ -102,5 +109,5 @@ class ArticlesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
-    }
+    }*/
 }

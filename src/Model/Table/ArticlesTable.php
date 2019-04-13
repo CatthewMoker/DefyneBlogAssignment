@@ -30,12 +30,13 @@ class ArticlesTable extends Table
      */
     public function initialize(array $config)
     {
-        parent::initialize($config);
+        /*parent::initialize($config);
 
         $this->setTable('articles');
         $this->setDisplayField('title');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('Timestamp');*/
         $this->addBehavior('Timestamp');
     }
 
@@ -45,7 +46,7 @@ class ArticlesTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    /*public function validationDefault(Validator $validator)
     {
         $validator
             ->nonNegativeInteger('id')
@@ -61,5 +62,5 @@ class ArticlesTable extends Table
             ->allowEmptyString('body');
 
         return $validator;
-    }
+    }*/
 }
