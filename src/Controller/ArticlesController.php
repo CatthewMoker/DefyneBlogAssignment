@@ -130,20 +130,28 @@ class ArticlesController extends AppController
             if ($this->request->getParam('action') === 'add') {
                 return true;
             }
-        }
-        if (isset($user['role']) && $user['role'] === 'author') {
             if ($this->request->getParam('action') === 'edit') {
                 return true;
             }
-        }
-        if (isset($user['role']) && $user['role'] === 'author') {
             if ($this->request->getParam('action') === 'delete') {
                 return true;
+            }
+            if ($this->request->getParam('action') === 'publish') {
+                return false;
             }
         }
         if (isset($user['role']) && $user['role'] === 'editor') {
             if ($this->request->getParam('action') === 'publish') {
                 return true;
+            }
+            if ($this->request->getParam('action') === 'add') {
+                return false;
+            }
+            if ($this->request->getParam('action') === 'edit') {
+                return false;
+            }
+            if ($this->request->getParam('action') === 'delete') {
+                return false;
             }
         }
 

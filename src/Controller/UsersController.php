@@ -19,9 +19,12 @@ class UsersController extends AppController
      */
     public function index()
     {
-        $users = $this->paginate($this->Users);
-
-        $this->set(compact('users'));
+        if ($this->getRequest()->getSession()->read('Auth.User.role') == 'admin') {
+            $users = $this->paginate($this->Users);
+            $this->set(compact('users'));
+        }
+        else
+            $this->redirect('/');
     }
 
     /**
@@ -121,5 +124,27 @@ class UsersController extends AppController
     {
         $this->Flash->success('You are logged out');
         return $this->redirect($this->Auth->logout());
+    }
+
+    public function isAuthorized($user = null)
+    {
+        // All registered users can add articles
+        // Prior to 3.4.0 $this->request->param('action') was used.
+        if (isset($user['role']) && $user['role'] === 'admin') {
+            if ($this->request->getParam('action') === 'add') {
+                return true;
+            }
+            if ($this->request->getParam('action') === 'edit') {
+                return true;
+            }
+            if ($this->request->getParam('action') === 'delete') {
+                return true;
+            }
+            if ($this->request->getParam('action') === 'index') {
+                return true;
+            }
+        }
+
+        return parent::isAuthorized($user);
     }
 }
