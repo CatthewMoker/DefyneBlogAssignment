@@ -21,8 +21,16 @@
             <td><?= h($article->title) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Tags') ?></th>
+            <td><?= h($article->tags) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($article->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('User Id') ?></th>
+            <td><?= $this->Number->format($article->user_id) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>

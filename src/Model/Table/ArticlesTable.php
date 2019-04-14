@@ -9,6 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Articles Model
  *
+ * @property |\Cake\ORM\Association\BelongsTo $Users
+ *
  * @method \App\Model\Entity\Article get($primaryKey, $options = [])
  * @method \App\Model\Entity\Article newEntity($data = null, array $options = [])
  * @method \App\Model\Entity\Article[] newEntities(array $data, array $options = [])
@@ -37,6 +39,11 @@ class ArticlesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
@@ -61,10 +68,30 @@ class ArticlesTable extends Table
             ->allowEmptyString('body');
 
         $validator
+            ->scalar('tags')
+            ->maxLength('tags', 255)
+            ->requirePresence('tags', 'create')
+            ->allowEmptyString('tags', false);
+
+        $validator
             ->boolean('published')
             ->requirePresence('published', 'create')
             ->allowEmptyString('published', false);
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->existsIn(['user_id'], 'Users'));
+
+        return $rules;
     }
 }

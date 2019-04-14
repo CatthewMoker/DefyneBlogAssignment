@@ -42,11 +42,17 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </ul>
         <div class="top-bar-section">
             <ul class="right">
-                <li><?= $this->Html->link('Logout', ['controller' => 'users', 'action' => 'logout' ]) ?></li>
-                <li><?= $this->Html->link('Login', ['controller' => 'users', 'action' => 'login' ]) ?></li>
+                <li><?php if($this->getRequest()->getSession()->read('Auth.User')) { ?>
+                    <?= $this->Html->link('Logout', ['controller' => 'users', 'action' => 'logout' ]) ?>
+                    <?php } ?>
+                </li>
+                <li><?php if($this->getRequest()->getSession()->read('Auth.User') == null) { ?>
+                    <?= $this->Html->link('Login', ['controller' => 'users', 'action' => 'login' ]) ?>
+                    <?php } ?>
+                </li>
 
-                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
+                <!--<li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
+                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>-->
             </ul>
         </div>
     </nav>
