@@ -12,66 +12,95 @@ use App\Controller\AppController;
  */
 class ArticlesController extends AppController
 {
-    public function initialize()
-    {
-        parent::initialize();
-
-        $this->loadComponent('Flash'); // Include the FlashComponent
-    }
-
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|void
+     */
     public function index()
     {
-        $this->set('articles', $this->Articles->find('all'));
+        $articles = $this->paginate($this->Articles);
+
+        $this->set(compact('articles'));
     }
 
-    public function view($id)
+    /**
+     * View method
+     *
+     * @param string|null $id Article id.
+     * @return \Cake\Http\Response|void
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function view($id = null)
     {
-        $article = $this->Articles->get($id);
-        $this->set(compact('article'));
+        $article = $this->Articles->get($id, [
+            'contain' => []
+        ]);
+
+        $this->set('article', $article);
     }
 
+    /**
+     * Add method
+     *
+     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     */
     public function add()
     {
         $article = $this->Articles->newEntity();
         if ($this->request->is('post')) {
-            // Prior to 3.4.0 $this->request->data() was used.
             $article = $this->Articles->patchEntity($article, $this->request->getData());
             if ($this->Articles->save($article)) {
-                $this->Flash->success(__('Your article has been saved.'));
+                $this->Flash->success(__('The article has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Unable to add your article.'));
+            $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
-        $this->set('article', $article);
+        $this->set(compact('article'));
     }
 
-
+    /**
+     * Edit method
+     *
+     * @param string|null $id Article id.
+     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
     public function edit($id = null)
     {
-        $article = $this->Articles->get($id);
-        if ($this->request->is(['post', 'put'])) {
-            // Prior to 3.4.0 $this->request->data() was used.
-            $this->Articles->patchEntity($article, $this->request->getData());
+        $article = $this->Articles->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $article = $this->Articles->patchEntity($article, $this->request->getData());
             if ($this->Articles->save($article)) {
-                $this->Flash->success(__('Your article has been updated.'));
+                $this->Flash->success(__('The article has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Unable to update your article.'));
+            $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
-
-        $this->set('article', $article);
+        $this->set(compact('article'));
     }
 
-    // src/Controller/ArticlesController.php
-
-    public function delete($id)
+    /**
+     * Delete method
+     *
+     * @param string|null $id Article id.
+     * @return \Cake\Http\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-
         $article = $this->Articles->get($id);
         if ($this->Articles->delete($article)) {
-            $this->Flash->success(__('The article with id: {0} has been deleted.', h($id)));
-            return $this->redirect(['action' => 'index']);
+            $this->Flash->success(__('The article has been deleted.'));
+        } else {
+            $this->Flash->error(__('The article could not be deleted. Please, try again.'));
         }
+
+        return $this->redirect(['action' => 'index']);
     }
 }
