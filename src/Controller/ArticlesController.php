@@ -104,4 +104,60 @@ class ArticlesController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function publish($id = null)
+    {
+        $article = $this->Articles->get($id, [
+            'contain' => []
+        ]);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $article = $this->Articles->patchEntity($article, ['published' => '1']);
+            if ($this->Articles->save($article)) {
+                $this->Flash->success(__('The article has been published.'));
+
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('The article could not be published. Please, try again.'));
+        }
+        return $this->redirect(['action' => 'index']);
+    }
+
+    public function isAuthorized($user = null)
+    {
+        // All registered users can add articles
+        // Prior to 3.4.0 $this->request->param('action') was used.
+        if (isset($user['role']) && $user['role'] === 'author') {
+            if ($this->request->getParam('action') === 'add') {
+                return true;
+            }
+        }
+        if (isset($user['role']) && $user['role'] === 'author') {
+            if ($this->request->getParam('action') === 'edit') {
+                return true;
+            }
+        }
+        if (isset($user['role']) && $user['role'] === 'author') {
+            if ($this->request->getParam('action') === 'delete') {
+                return true;
+            }
+        }
+        if (isset($user['role']) && $user['role'] === 'editor') {
+            if ($this->request->getParam('action') === 'publish') {
+                return true;
+            }
+        }
+
+
+        // The owner of an article can edit and delete it
+        // Prior to 3.4.0 $this->request->param('action') was used.
+        /*if (in_array($this->request->getParam('action'), ['edit', 'delete'])) {
+            // Prior to 3.4.0 $this->request->params('pass.0')
+            $articleId = (int)$this->request->getParam('pass.0');
+            if ($this->Articles->isOwnedBy($articleId, $user['id'])) {
+                return true;
+            }
+        }*/
+
+        return parent::isAuthorized($user);
+    }
 }
