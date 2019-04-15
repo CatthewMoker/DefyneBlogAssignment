@@ -47,9 +47,3 @@ RUN composer install --no-interaction
 
 #change ownership of our applications
 RUN chown -R www-data:www-data $APP_HOME
-
-RUN docker-compose build
-
-RUN docker-compose run cakephp composer install --no-interaction
-
-RUN docker-compose run cakephp bin/cake migrations migrate
