@@ -49,3 +49,21 @@ configuration relevant for your application.
 The app skeleton uses a subset of [Foundation](http://foundation.zurb.com/) (v5) CSS
 framework by default. You can, however, replace it with any other library or
 custom styles.
+
+## Docker Deployement
+
+With Docker installed use the following commands.
+
+```bash
+docker-compose build
+
+docker-compose run cakephp composer install --no-interaction
+
+docker-compose run cakephp bin/cake migrations migrate
+
+docker-compose run cakephp bin/cake migrations seed
+
+docker-compose up
+```
+
+Then type in your browser localhost:4000
