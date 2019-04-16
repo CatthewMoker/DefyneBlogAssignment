@@ -50,7 +50,7 @@ The app skeleton uses a subset of [Foundation](http://foundation.zurb.com/) (v5)
 framework by default. You can, however, replace it with any other library or
 custom styles.
 
-## Docker Deployement
+## Docker Deployment
 
 With Docker installed use the following commands.
 
@@ -66,4 +66,4 @@ docker-compose run cakephp bin/cake migrations seed
 docker-compose up
 ```
 
-Then type in your browser localhost:4000
+Then type in your browser [localhost:4000]
