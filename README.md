@@ -66,4 +66,4 @@ docker-compose run cakephp bin/cake migrations seed
 docker-compose up
 ```
 
-Then type in your browser [localhost:4000](localhost:4000/)
+Then type in your browser [localhost:4000](http://localhost:4000/)
