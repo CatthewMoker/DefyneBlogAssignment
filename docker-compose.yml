@@ -1,6 +1,17 @@
 version: '2'
 # define all services
 services:
+
+  mysql:
+    # we use the mysql base image, version 5.6.36
+    image: mysql:5.6.36
+    # we mount a datavolume to make sure we don't loose data
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # setting some envvars to create the DB
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=cakephp
   # our service is called CakePHP ;-)
   cakephp:
     # we want to use the image which is build from our Dockerfile
@@ -19,16 +30,9 @@ services:
       - MYSQL_URL=mysql
       - MYSQL_USERNAME=root
       - MYSQL_PASSWORD=root
-  mysql:
-    # we use the mysql base image, version 5.6.36
-    image: mysql:5.6.36
-    # we mount a datavolume to make sure we don't loose data
-    volumes:
-      - mysql_data:/var/lib/mysql
-    # setting some envvars to create the DB
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=cakephp
+    command: >
+      sh -c "composer install --no-interaction && bin/cake migrations migrate && bin/cake migrations seed"
+
 volumes:
   mysql_data:
 
