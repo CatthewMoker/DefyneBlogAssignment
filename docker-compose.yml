@@ -31,7 +31,7 @@ services:
       - MYSQL_USERNAME=root
       - MYSQL_PASSWORD=root
     command: >
-      sh -c "composer install --no-interaction && bin/cake migrations migrate && bin/cake migrations seed"
+      sh -c "bin/cake migrations migrate && bin/cake migrations seed && /usr/sbin/apache2ctl -D FOREGROUND"
 
 volumes:
   mysql_data:
