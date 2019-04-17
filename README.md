@@ -52,17 +52,9 @@ custom styles.
 
 ## Docker Deployment
 
-With Docker installed use the following commands.
+With Docker installed use the following command.
 
 ```bash
-docker-compose build
-
-docker-compose run cakephp composer install --no-interaction
-
-docker-compose run cakephp bin/cake migrations migrate
-
-docker-compose run cakephp bin/cake migrations seed
-
 docker-compose up
 ```
 
