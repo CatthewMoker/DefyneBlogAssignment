@@ -32,6 +32,17 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+
+    <?= $this->Html->script('jquery-3.4.0.min.js') ?>
+    <script>
+        $(document).ready(function(){
+            $("button").click(function(){
+                $.get("demo_test.asp", function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <nav class="top-bar expanded" data-topbar role="navigation">

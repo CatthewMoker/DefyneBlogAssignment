@@ -59,6 +59,8 @@ class ArticlesController extends AppController
             $this->Flash->error(__('The article could not be saved. Please, try again.'));
         }
         $this->set(compact('article'));
+
+
     }
 
     /**
